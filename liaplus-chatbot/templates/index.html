@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>LiaPlus Chatbot</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+:root {
+  --cyan: #14ffe9;
+  --navy: #0a102f;
+  --black: #111;
+  --white: #f5fafe;
+  --button-shadow: 0 0 18px 3px #14ffe9cc, 0 0 12px 0 #0a102fbb;
+}
+
+body {
+  margin: 0;
+  font-family: Segoe UI, Arial, sans-serif;
+  background: linear-gradient(140deg, var(--navy) 70%, var(--black) 100%);
+  color: var(--white);
+  min-height: 100vh;
+}
+
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 960px;
+  margin: 36px auto;
+  background: var(--black);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 2px 28px #0a102f52, 0 0.5px 7px #14ffe94c;
+}
+
+.left-panel, .right-panel {
+  flex: 1;
+  min-width: 300px;
+  display: flex;
+  flex-direction: column;
+  padding: 30px 4vw;
+  box-sizing: border-box;
+}
+
+.left-panel {
+  background: linear-gradient(128deg, #00054a 49%, #14ffe9 110%);
+  border-right: 2px solid #14ffe99c;
+  justify-content: flex-start;
+}
+
+.username-box {
+  background: #001b41;
+  color: var(--cyan);
+  font-weight: 600;
+  text-align: center;
+  font-size: 1.17em;
+  border: 2.7px solid var(--cyan);
+  border-radius: 10px;
+  padding: 20px 10px;
+  box-shadow: 0 0 7px #14ffe9a3;
+  margin-bottom: 22px;
+  letter-spacing: 0.08em;
+}
+
+.input-box {
+  width: 100%;
+  background: #162147;
+  border-radius: 14px;
+  padding: 16px 18px;
+  margin-bottom: 26px;
+  min-height: 70px;
+  box-shadow: 0 2px 8px #0a102f6b;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.input-anim {
+  color: var(--white);
+  font-size: 19px;
+  font-family: monospace;
+  letter-spacing: .03em;
+  margin-bottom: 8px;
+  width: fit-content;
+  overflow: hidden;
+  border-right: .18em solid var(--cyan);
+  white-space: nowrap;
+  animation: typing 1.3s steps(18, end), blink-caret 0.88s step-end infinite;
+}
+
+@keyframes typing {
+  from { width: 0 }
+  to { width: 212px }
+}
+@keyframes blink-caret {
+  50% { border-color: transparent }
+}
+
+input#msg {
+   width: fit-content;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1.5px solid var(--cyan);
+  background-color: #14ffe91a;
+  color: var(--white);
+  font-size: 16px;
+  outline: none;
+  margin-top: 4px;
+  margin-right: 20px;
+}
+
+input#msg::placeholder {
+  color: #72fff2c8;
+  font-size: 15px;
+}
+
+.button-row {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  margin-top: 18px;
+}
+
+button {
+  padding: 12px 32px;
+  border-radius: 999px;
+  border: none;
+  font-size: 16px;
+  font-weight: 600;
+  background: linear-gradient(96deg, var(--cyan) 12%, #00de89 100%);
+  color: var(--navy);
+  margin: 0 7px 0 0;
+  cursor: pointer;
+  box-shadow: 0 0 2px #14ffe9aa;
+  transition: box-shadow .18s, filter .18s;
+}
+
+button:hover {
+  box-shadow: var(--button-shadow);
+  filter: brightness(1.07);
+   color: white;
+ 
+}
+
+button:active {
+  box-shadow: 0 0 30px #14ffe9d0;
+}
+
+.right-panel {
+  background: linear-gradient(112deg, #0a102f 88%, #00de89 100%);
+  position: relative;
+}
+
+/*history buttons*/
+.history-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  gap: 10px;
+}
+
+.clear-btn {
+  padding: 6px 16px;
+  border-radius: 999px;
+  border: 1px solid var(--cyan);
+  background: transparent;
+  color: var(--cyan);
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  cursor: pointer;
+  box-shadow: 0 0 6px #14ffe93d;
+  transition: box-shadow .18s, color .18s, background-color .18s, transform .08s;
+}
+
+.clear-btn:hover {
+  color: #0a102f;
+  background-color: var(--cyan);
+  box-shadow: 0 0 18px #14ffe9dd;
+  transform: translateY(-1px);
+}
+
+.clear-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 0 10px #14ffe9aa;
+}
+
+
+.history-title {
+  font-family: Segoe UI, Arial, sans-serif;
+  color: var(--cyan);
+  font-size: 1.09em;
+  font-weight: 600;
+  text-align: left;
+  margin: 0 0 10px 0;
+  letter-spacing: 0.02em;
+}
+
+.history-box {
+  flex: 1;
+  background: #162147;
+  border-radius: 12px;
+  padding: 18px 16px 18px 16px;
+  min-height: 300px;
+  overflow-y: auto;
+  max-height: 410px;
+  box-shadow: 0 2px 12px #14ffe939;
+}
+
+.history-message {
+  margin-bottom: 13px;
+  font-size: 16.5px;
+  padding: 11px 18px;
+  border-radius: 16px;
+  background: linear-gradient(78deg, #000d50 93%, var(--cyan) 121%);
+  color: #f5fafe;
+  font-weight: 400;
+  word-break: break-word;
+}
+
+.history-message.user {
+  background: linear-gradient(110deg, var(--cyan) 12%, #001a63 82%);
+  color: var(--navy);
+  font-weight: 600;
+}
+
+.history-message.bot {
+  background: linear-gradient(90deg, #181f33 12%, var(--black) 77%);
+  color: var(--white);
+  font-weight: 500;
+}
+
+@media (max-width: 950px) {
+  .container {
+    flex-direction: column;
+    max-width: 98vw;
+  }
+  .left-panel, .right-panel {
+    min-width: unset;
+    width: 100%;
+    padding: 16px 6vw;
+  }
+  .history-box {
+    max-height: 290px;
+  }
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <!-- Left: Username, single input box, buttons -->
+  <div class="left-panel">
+    <div class="username-box" id="usernameBox">
+      Hey Saheb!
+    </div>
+    <div class="input-box">
+      <div class="input-anim" id="inputAnim">Type your message here...</div>
+      <input id="msg" type="text" placeholder="" autocomplete="off">
+    </div>
+    <div class="button-row">
+      <button type="button" onclick="analyze()">Analyze Conversation</button>
+      <button type="button" onclick="sendMsg()">Send</button>
+    </div>
+  </div>
+  <!-- Right: Conversation history and full history section -->
+  <div class="right-panel">
+    <!-- <div class="history-title" id="historyTitle" style="display: none;">your full conversational history</div>
+    <div class="history-box" id="chat"></div> -->
+    <div class="history-header">
+  <div class="history-title" id="historyTitle" style="display: none;">
+    your full conversational history
+  </div>
+  <button type="button" class="clear-btn" onclick="clearHistory()">Clear History</button>
+</div>
+
+<div class="history-box" id="chat"></div>
+
+  </div>
+</div>
+<script>
+let chatDiv = document.getElementById('chat');
+let historyTitle = document.getElementById('historyTitle');
+const msgInput = document.getElementById('msg');
+let sessionHistory = [];
+
+function renderHistory(history, highlightSession=false) {
+  chatDiv.innerHTML = "";
+  history.forEach(item => {
+    let cls = item.bot ? 'bot' : 'user';
+    let who = item.user ? `<strong>You:</strong> ${item.user}` : "";
+    let bot = item.bot ? `<strong>Bot:</strong> ${item.bot}` : "";
+    chatDiv.innerHTML += `<div class="history-message ${cls}">${who} ${bot}</div>`;
+  });
+  chatDiv.scrollTop = chatDiv.scrollHeight;
+}
+
+// Message sending
+function sendMsg() {
+  let msg = msgInput.value.trim();
+  if (!msg) return;
+  fetch('/chat', {
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({message: msg})
+  })
+  .then(r=>r.json()).then(data=>{
+    sessionHistory.push({user: msg, bot: data.response});
+    renderHistory(sessionHistory, true);
+    msgInput.value = '';
+  });
+}
+
+// Analyze button: shows current and previous history, separated/title as requested
+function analyze() {
+  fetch('/analyze')
+  .then(r=>r.json())
+  .then(data=>{
+    let output = '';
+    if (sessionHistory.length) {
+      output += `<div class="history-message bot"><strong>Session Analysis:</strong> ${data.overall}<br>
+      <strong>Trend:</strong> ${data.trend}</div>`;
+      sessionHistory.forEach(d => {
+        output += `<div class="history-message user"><strong>You:</strong> ${d.user} <em style="color:var(--cyan);font-size:0.93em">${d.sentiment||""}</em></div>`;
+        output += d.bot ? `<div class="history-message bot"><strong>Bot:</strong> ${d.bot}</div>` : '';
+      });
+    }
+    // Full history from server (including previous sessions, if implemented server-side)
+    if (data.details && data.details.length > sessionHistory.length) {
+      historyTitle.style.display = 'block';
+      for (let i = sessionHistory.length; i < data.details.length; i++) {
+        output += `<div class="history-message user"><strong>You:</strong> ${data.details[i].user} <em style="color:var(--cyan);">${data.details[i].sentiment}</em></div>`;
+      }
+    } else {
+      historyTitle.style.display = 'none';
+    }
+    chatDiv.innerHTML = output;
+    chatDiv.scrollTop = chatDiv.scrollHeight;
+  });
+}
+
+// Send on Enter
+msgInput.addEventListener('keypress', function(e) {
+  if (e.key === 'Enter') sendMsg();
+});
+
+//clear history 
+ function clearHistory() {
+  sessionHistory = [];
+  chatDiv.innerHTML = "";
+  historyTitle.style.display = 'none';
+}
+
+</script>
+</body>
+</html>
